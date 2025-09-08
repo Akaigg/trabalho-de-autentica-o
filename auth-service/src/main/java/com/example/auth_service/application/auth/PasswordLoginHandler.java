@@ -9,7 +9,6 @@ import com.example.auth_service.domain.user.User;
 import com.example.auth_service.domain.user.UserRepository;
 import com.example.auth_service.domain.user.vo.Email;
 import com.example.auth_service.interfaces.rest.dto.auth.TokenResponse;
-import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
@@ -17,13 +16,23 @@ import org.springframework.web.server.ResponseStatusException;
 import java.util.Optional;
 
 @Service
-@RequiredArgsConstructor
 public class PasswordLoginHandler {
 
     private final UserRepository userRepository;
     private final PasswordHasher passwordHasher;
     private final TokenService tokenService;
     private final RefreshTokenRepository refreshTokenRepository;
+
+    // Explicit constructor to initialize final fields
+    public PasswordLoginHandler(UserRepository userRepository, 
+                                 PasswordHasher passwordHasher, 
+                                 TokenService tokenService, 
+                                 RefreshTokenRepository refreshTokenRepository) {
+        this.userRepository = userRepository;
+        this.passwordHasher = passwordHasher;
+        this.tokenService = tokenService;
+        this.refreshTokenRepository = refreshTokenRepository;
+    }
 
     public TokenResponse handle(String emailRaw, String pwRaw) {
         Email email = Email.of(emailRaw);

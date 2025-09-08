@@ -30,4 +30,9 @@ public class Email {
         return email == null ? null : email.trim().toLowerCase();
     }
 
+    public String getValue() {
+        throw new UnsupportedOperationException("Not supported yet.");
+    }
+
+
 }

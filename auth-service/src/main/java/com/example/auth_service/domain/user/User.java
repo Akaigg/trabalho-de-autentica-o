@@ -42,4 +42,9 @@ public class User {
         this.email = email;
         this.role = Role.of(role);
     }
+
+    public String getPassword() {
+        throw new UnsupportedOperationException("Not supported yet.");
+    }
+
 }
