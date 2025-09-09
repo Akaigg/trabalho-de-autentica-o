@@ -23,7 +23,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 
 @SpringBootTest
 @AutoConfigureMockMvc
-@Transactional // Garante que os testes sejam transacionais e revertidos
+@Transactional 
 public class AuthControllerIntegrationTest {
 
     @Autowired
@@ -37,20 +37,17 @@ public class AuthControllerIntegrationTest {
 
     @BeforeEach
     void setUp() {
-        // Limpar o repositório antes de cada teste
         refreshTokenRepository.deleteAll();
     }
 
     @Test
     void shouldPerformFullAuthFlowSuccessfully() throws Exception {
-        // 1. Registrar um novo usuário
         UserRequest userRequest = new UserRequest("Test User", "test@example.com", "password123");
         mockMvc.perform(post("/users")
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(objectMapper.writeValueAsString(userRequest)))
                 .andExpect(status().isCreated());
 
-        // 2. Fazer login
         PasswordLoginRequest loginRequest = new PasswordLoginRequest("test@example.com", "password123");
         MvcResult loginResult = mockMvc.perform(post("/auth/login")
                         .contentType(MediaType.APPLICATION_JSON)
@@ -64,10 +61,8 @@ public class AuthControllerIntegrationTest {
         TokenResponse loginTokenResponse = objectMapper.readValue(loginResponse, TokenResponse.class);
         String originalRefreshToken = loginTokenResponse.refreshToken();
 
-        // Verifica se o token de refresh original foi salvo
         assertTrue(refreshTokenRepository.findByTokenHash(originalRefreshToken).isPresent());
 
-        // 3. Usar o refresh token para obter novos tokens
         RefreshTokenRequest refreshRequest = new RefreshTokenRequest(originalRefreshToken);
         MvcResult refreshResult = mockMvc.perform(post("/auth/refresh")
                         .contentType(MediaType.APPLICATION_JSON)
@@ -80,25 +75,17 @@ public class AuthControllerIntegrationTest {
         String refreshResponse = refreshResult.getResponse().getContentAsString();
         TokenResponse refreshTokens = objectMapper.readValue(refreshResponse, TokenResponse.class);
 
-        // highlight-start
-        // VERIFICAÇÃO CORRIGIDA: O token original DEVE estar revogado agora.
         assertTrue(refreshTokenRepository.findByTokenHash(originalRefreshToken).get().isRevoked());
-        // highlight-end
-
-        // Verifica se o NOVO token de refresh foi salvo
         assertTrue(refreshTokenRepository.findByTokenHash(refreshTokens.refreshToken()).isPresent());
 
-        // 4. Fazer logout com o novo token de refresh
         RefreshTokenRequest logoutRequest = new RefreshTokenRequest(refreshTokens.refreshToken());
         mockMvc.perform(post("/auth/logout")
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(objectMapper.writeValueAsString(logoutRequest)))
                 .andExpect(status().isNoContent());
         
-        // Verifica se o token de refresh (usado no logout) foi revogado
         assertTrue(refreshTokenRepository.findByTokenHash(refreshTokens.refreshToken()).get().isRevoked());
 
-        // 5. Tentar usar o token revogado novamente (deve falhar)
         mockMvc.perform(post("/auth/refresh")
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(objectMapper.writeValueAsString(logoutRequest)))

@@ -29,7 +29,6 @@ public class Email {
         return email == null ? null : email.trim().toLowerCase();
     }
 
-    // CORREÇÃO: Implemente o método para retornar o valor do email.
     public String getValue() {
         return this.value;
     }

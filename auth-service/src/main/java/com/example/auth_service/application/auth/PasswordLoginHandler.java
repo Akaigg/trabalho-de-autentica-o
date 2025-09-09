@@ -23,7 +23,6 @@ public class PasswordLoginHandler {
     private final TokenService tokenService;
     private final RefreshTokenRepository refreshTokenRepository;
 
-    // Explicit constructor to initialize final fields
     public PasswordLoginHandler(UserRepository userRepository, 
                                  PasswordHasher passwordHasher, 
                                  TokenService tokenService, 

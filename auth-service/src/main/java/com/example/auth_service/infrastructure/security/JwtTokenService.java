@@ -50,7 +50,7 @@ public class JwtTokenService implements TokenService {
                 .withIssuedAt(Date.from(now))
                 .withExpiresAt(Date.from(refreshExp))
                 .withClaim("type", "refresh")
-                .withClaim("jti", UUID.randomUUID().toString()) // Add a unique ID to the refresh token
+                .withClaim("jti", UUID.randomUUID().toString()) 
                 .sign(algorithm);
 
 
