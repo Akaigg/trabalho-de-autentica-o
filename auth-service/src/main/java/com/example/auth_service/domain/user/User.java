@@ -43,8 +43,11 @@ public class User {
         this.role = Role.of(role);
     }
 
+    // CORREÇÃO: Remova este método.
+    // O @Getter do Lombok já cria o método getPassword() corretamente em segundo plano.
+    /*
     public String getPassword() {
         throw new UnsupportedOperationException("Not supported yet.");
     }
-
+    */
 }

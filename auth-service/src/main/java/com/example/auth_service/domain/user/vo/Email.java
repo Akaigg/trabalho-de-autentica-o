@@ -1,5 +1,4 @@
 package com.example.auth_service.domain.user.vo;
-
 import jakarta.persistence.Column;
 import jakarta.persistence.Embeddable;
 import lombok.Getter;
@@ -30,9 +29,8 @@ public class Email {
         return email == null ? null : email.trim().toLowerCase();
     }
 
+    // CORREÇÃO: Implemente o método para retornar o valor do email.
     public String getValue() {
-        throw new UnsupportedOperationException("Not supported yet.");
+        return this.value;
     }
-
-
 }

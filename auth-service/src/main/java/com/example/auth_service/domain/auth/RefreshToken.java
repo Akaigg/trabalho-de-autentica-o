@@ -24,7 +24,9 @@ public class RefreshToken {
     @JoinColumn(name = "user_id", nullable = false)
     private User user;
 
-    @Column(nullable = false, unique = true)
+    // CORREÇÃO: Aumente o tamanho da coluna para acomodar o token JWT.
+    // Um valor como 512 ou 1024 é seguro para JWTs.
+    @Column(nullable = false, unique = true, length = 1024)
     private String tokenHash;
 
     @Column(nullable = false)
