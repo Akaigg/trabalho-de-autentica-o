@@ -6,7 +6,7 @@ Análise da Arquitetura Atual
         RequestMagicLinkHandler
         VerifyMagicLinkHandler
         RegisterUserHandler        
-	      ListUsersHandler
+	    ListUsersHandler
 
 Portas de Saída
 
