@@ -29,7 +29,7 @@ Adaptadores
 
 
 
-Suas entidades de domínio User e MagicLink possuem anotações do JPA. Isso acopla seu modelo de domínio diretamente a uma tecnologia de persistência. Os Handlers estão lançando ResponseStatusException, que é uma exceção específica do Spring Web. Isso faz com que sua lógica de aplicação conheça detalhes do protocolo HTTP e do framework. Os Controllers dependem diretamente das classes concretas dos Handlers. Não há uma interface que formalize o contrato do caso de uso.
+As entidades de domínio User e MagicLink possuem anotações do JPA. Isso acopla o modelo de domínio diretamente a uma tecnologia de persistência. Os Handlers estão lançando ResponseStatusException, que é uma exceção específica do Spring Web. Isso faz com que a lógica de aplicação conheça detalhes do protocolo HTTP e do framework. Os Controllers dependem diretamente das classes concretas dos Handlers. Não há uma interface que formalize o contrato do caso de uso.
 
 Questões extras:
 
@@ -114,6 +114,4 @@ Resposta: B
 
 Port: É a especificação (uma interface) que pertence ao núcleo da aplicação. Ela define um contrato, um ponto de interação, sem se preocupar com a tecnologia.
 
-Adapter: É a implementação concreta de uma porta. É o código que conecta uma tecnologia específica (um Controller REST, um repositório com JPA, um cliente de mensageria) à porta. Ele faz a "tradução" entre o mundo da tecnologia e o núcleo da aplicação.
-
-
+Adapter: É a implementação concreta de uma porta. É o código que conecta uma tecnologia específica (um Controller REST, um repositório com JPA, um cliente de mensageria) à porta. Ele faz a "tradução" entre o mundo da tecnologia e o núcleo da aplicação.
